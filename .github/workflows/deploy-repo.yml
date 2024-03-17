@@ -24,10 +24,10 @@ jobs:
     - name: Checkout code
       run: |
         echo "${{ github.event.inputs.projectUrl }}"
-        git clone ${{ github.event.inputs.projectUrl }} ~/user-project
-        cd ~/user-project
+        git clone ${{ github.event.inputs.projectUrl }} $HOME/user-project
+        cd $HOME/user-project
         ls
-        cat <<EOF >"~/user-project/Dockerfile"
+        cat <<EOF >Dockerfile
         FROM oven/bun:1.0.31-alpine
         WORKDIR /app
         COPY . .
