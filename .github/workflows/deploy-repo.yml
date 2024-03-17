@@ -38,7 +38,7 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     name: deploy changes on staging
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs: build-image
     steps:
       - name: set the kubernetes context
