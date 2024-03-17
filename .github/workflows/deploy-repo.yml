@@ -52,14 +52,15 @@ jobs:
         with:
           sparse-checkout: |
             ./deployments
-      - name: deploy to the kubernetes cluster
-        uses: azure/k8s-deploy@v4
-        with:
-          action: deploy
-          force: true
-          strategy: basic
-          namespace: backstage
-          manifests: |
-            deployments/basic-deployment.yaml
-          images: |
-            notemann27/backstage-test:${{ github.sha }}
+      - name: set new kustomize image tag
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        working-directory: "deployments/user-deployments/base"
+        run: |
+          kustomize edit set image base-image=notemann27/backstage-test:$GITHUB_SHA
+
+      - name: apply new config to deploy in cluster
+        working-directory: "deployments/user-deployments"
+        run: |
+          kubectl apply -k prod
+
