@@ -1,0 +1,23 @@
+# kubernetes/backstage.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage
+  namespace: backstage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express
+  template:
+    metadata:
+      labels:
+        app: express
+    spec:
+      containers:
+        - name: express
+          image: notemann27/backstage-test:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
