@@ -12,10 +12,26 @@ jobs:
   build-image:
     runs-on: ubuntu-22.04
     steps:
+    - name: set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: set up docker buildx
+      uses: docker/setup-buildx-action@v3
+    - name: log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Checkout code
       run: |
         echo "${{ github.event.inputs.projectUrl }}"
         git clone ${{ github.event.inputs.projectUrl }} ~/user-project
         cd ~/user-project
-        git log --oneline
-
+        cat <<EOF >"~/user-project/Dockerfile"
+        FROM oven/bun:1.0.31-alpine
+        WORKDIR /app
+        COPY . .
+        RUN bun install
+        ENTRYPOINT ["bun", "index.ts"]
+        EOF
+        ls
+        docker buildx build --platform linux/amd64 -t notemann27/backstage-test:${{ github.sha }} --push .
