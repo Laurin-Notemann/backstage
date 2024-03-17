@@ -1,0 +1,19 @@
+name: Deploy repository in cluster
+
+on:
+  workflow_dispatch:
+    inputs:
+      projectUrl:
+        description: URL of the project to be hosted
+        requiered: true
+
+
+jobs:
+  build-image:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      run: |
+        echo "{{ github.event.inputs.projectUrl }}"
+        git log -3 --oneline
+

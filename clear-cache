@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Define variables
+DB_NAME="backstage_plugin_catalog"
+DB_USER="postgres"
+DB_PASSWORD="admin"
+TABLE_NAME="refresh_state"
+CONTAINER_NAME="backstage_postgres"
+
+# Command to run inside the container
+SQL_COMMAND="DELETE FROM $TABLE_NAME;"
+
+# Use docker exec to run the psql command inside the container
+docker exec $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -c "$SQL_COMMAND"
