@@ -5,7 +5,7 @@ on:
     inputs:
       projectUrl:
         description: URL of the project to be hosted
-        requiered: true
+        required: true
 
 
 jobs:
@@ -14,6 +14,6 @@ jobs:
     steps:
     - name: Checkout code
       run: |
-        echo "{{ github.event.inputs.projectUrl }}"
+        echo "${{ github.event.inputs.projectUrl }}"
         git log -3 --oneline
 
