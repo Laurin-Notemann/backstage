@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backstage
+  name: express-test-app
   namespace: backstage
 spec:
   replicas: 1
