@@ -36,12 +36,11 @@ jobs:
         ENTRYPOINT ["bun", "index.ts"]
         EOF
         export SHA=$(git rev-parse HEAD)
-        echo "sha=$SHA" >> $GITHUB_OUTPUT
 
         docker buildx build --platform linux/amd64 -t notemann27/backstage-test:$SHA --push .
     - name: Set SHA as output
       id: set_output
-      run: echo "sha=$(echo $SHA)" >> $GITHUB_OUTPUT
+      run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
   deploy:
@@ -63,10 +62,10 @@ jobs:
             ./deployments
       - name: set new kustomize image tag
         env:
-          GITHUB_SHA: ${{ needs.build-image.outputs.sha }}
+          SHA: ${{ needs.build-image.outputs.sha }}
         working-directory: "deployments/user-deployments/base"
         run: |
-          kustomize edit set image base-image=notemann27/backstage-test:$GITHUB_SHA
+          kustomize edit set image base-image=notemann27/backstage-test:$SHA
 
       - name: apply new config to deploy in cluster
         working-directory: "deployments/user-deployments"
