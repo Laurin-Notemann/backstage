@@ -26,6 +26,7 @@ jobs:
         echo "${{ github.event.inputs.projectUrl }}"
         git clone ${{ github.event.inputs.projectUrl }} ~/user-project
         cd ~/user-project
+        ls
         cat <<EOF >"~/user-project/Dockerfile"
         FROM oven/bun:1.0.31-alpine
         WORKDIR /app
