@@ -12,7 +12,7 @@ jobs:
   build-image:
     runs-on: ubuntu-22.04
     outputs:
-      sha: ${{ steps.set_output.outputs.sha }}
+      sha: ${{ steps.clone_build.outputs.sha }}
     steps:
     - name: set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -24,6 +24,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Clone and build image
+      id: clone_build
       run: |
         echo "${{ github.event.inputs.projectUrl }}"
         git clone ${{ github.event.inputs.projectUrl }} $HOME/user-project
