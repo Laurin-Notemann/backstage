@@ -26,8 +26,8 @@ spec:
     action: github:actions:dispatch
     input:
       workflowId: deploy-repo.yml
-      repoUrl: 'github.com/codeuniversity/code-idp?repo=code-idp&owner=codeuniversity'
-      branchOrTagName: 'feat/pipeline-to-deploy'
+      repoUrl: 'github.com/laurin-notemann/backstage?repo=backstage&owner=laurin-notemann'
+      branchOrTagName: 'main'
       workflowInputs:
         projectUrl: ${{ parameters.url }}
 
