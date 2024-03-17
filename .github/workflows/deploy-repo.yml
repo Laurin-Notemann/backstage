@@ -15,5 +15,7 @@ jobs:
     - name: Checkout code
       run: |
         echo "${{ github.event.inputs.projectUrl }}"
-        git log -3 --oneline
+        git clone ${{ github.event.inputs.projectUrl }} ~/user-project
+        cd ~/user-project
+        git log --oneline
 
