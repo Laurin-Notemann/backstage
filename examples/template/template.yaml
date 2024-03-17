@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
 kind: Template
 metadata:
-  name: example-nodejs-template
+  name: example-nodejs-templatesss
   title: Example Node.js Template
   description: An example template for the scaffolder that creates a simple Node.js service
 spec:
@@ -12,7 +12,7 @@ spec:
   # These parameters are used to generate the input form in the frontend, and are
   # used to gather input data for the execution of the template.
   parameters:
-    - title: Fill in some steps
+    - title: Fill in some stepssslolhuherHjdsfkasj
       required:
         - name
       properties:
@@ -34,6 +34,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+                example.com
+
 
   # These steps are executed in the scaffolder backend, using data that we gathered
   # via the parameters above.

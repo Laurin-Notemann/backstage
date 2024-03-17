@@ -1,0 +1,41 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: deploy-express
+  title: Deploy Express app
+  description: A template to deploy an existing app
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Enter your repository url
+      required: 
+        - url
+      properties:
+        url:
+          title: Repository Url
+          type: string
+          description: Repository of a project to host
+          ui:autofocus: true
+          ui:options:
+
+  steps:
+  - id: github-action
+    name: Trigger Github Action
+    action: github:actions:dispatch
+    input:
+      workflowId: deploy-repo.yml
+      repoUrl: 'github.com/codeuniversity/code-idp?repo=code-idp&owner=codeuniversity'
+      branchOrTagName: 'feat/pipeline-to-deploy'
+      workflowInputs:
+        projectUrl: ${{ parameters.url }}
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+

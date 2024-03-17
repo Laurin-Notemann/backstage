@@ -1,0 +1,6 @@
+[submodule "hosted-application/laurin/app"]
+	path = hosted-application/laurin/app
+	url = https://github.com/Laurin-Notemann/backstage-test
+[submodule "hosted-applications/laurin/app"]
+	path = hosted-applications/laurin/app
+	url = https://github.com/Laurin-Notemann/backstage-test
