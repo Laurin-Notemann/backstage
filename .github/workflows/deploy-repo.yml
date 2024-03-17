@@ -36,10 +36,13 @@ jobs:
         ENTRYPOINT ["bun", "index.ts"]
         EOF
         export SHA=$(git rev-parse HEAD)
+        echo "sha=$SHA" >> $GITHUB_OUTPUT
+
         docker buildx build --platform linux/amd64 -t notemann27/backstage-test:$SHA --push .
     - name: Set SHA as output
       id: set_output
-      run: echo "::set-output name=sha::$(echo $SHA)"
+      run: echo "sha=$(echo $SHA)" >> $GITHUB_OUTPUT
+
 
   deploy:
     runs-on: ubuntu-22.04
