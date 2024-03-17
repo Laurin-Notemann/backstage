@@ -11,6 +11,8 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-22.04
+    outputs:
+      sha: ${{ steps.set_output.outputs.sha }}
     steps:
     - name: set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -33,7 +35,11 @@ jobs:
         RUN bun install
         ENTRYPOINT ["bun", "index.ts"]
         EOF
-        docker buildx build --platform linux/amd64 -t notemann27/backstage-test:${{ github.sha }} --push .
+        export SHA=$(git rev-parse HEAD)
+        docker buildx build --platform linux/amd64 -t notemann27/backstage-test:$SHA --push .
+    - name: Set SHA as output
+      id: set_output
+      run: echo "::set-output name=sha::$(echo $SHA)"
 
   deploy:
     runs-on: ubuntu-22.04
@@ -54,7 +60,7 @@ jobs:
             ./deployments
       - name: set new kustomize image tag
         env:
-          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_SHA: ${{ needs.build-image.outputs.sha }}
         working-directory: "deployments/user-deployments/base"
         run: |
           kustomize edit set image base-image=notemann27/backstage-test:$GITHUB_SHA
